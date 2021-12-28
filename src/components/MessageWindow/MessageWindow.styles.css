@@ -1,0 +1,17 @@
+.message-window {
+  background-color: rgba(81, 95, 102, 0.96);
+  color: white;
+  border-radius: 10px;
+  display: flex;
+}
+
+.message-window p {
+  flex-grow: 1;
+  display: flex;
+}
+
+#logoImageWrapper img {
+  width: 100px;
+  height: 50px;
+  object-fit: cover;
+}
