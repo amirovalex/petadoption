@@ -2,30 +2,55 @@ import React from 'react'
 import MessageWindow from '../../components/MessageWindow/MessageWindow.component.jsx';
 import './HomePage.styles.css'
 import userDogImage from '../../assets/UserDogImage.jpg';
-import {Box} from '@mui/material';
-import Button from '@mui/material/Button';
-
+import {Box, Grid, Typography, } from '@mui/material';
+import background from '../../assets/background.jpg';
+import LoginForm from '../../components/LoginForm/LoginForm.component.jsx';
 const HomePage = () => {
     const messageTextLeft = "We helped thousands of pets to find their new home. Join today to adopt your own pet"
     const messageTextRight = "Hi, I am looking for a new home. I love the sea and playing with my tennis ball"
     return (
-        <div id="homePage">
-         <div id="upperSide">
+        <Grid container
+        direction="column"
+        justifyContent="center"
+        sx={{  
+           backgroundImage: `url(${background})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        flexGrow:1}}>
+         <Grid item
+          sx={{flexGrow:3,
+         display:"flex"}}>
          <Box 
-            sx={{display:"flex",justifyContent: "center",alignSelf:"flex-end",backgroundColor:"#fff",padding:2,borderRadius:3, fontFamily: "Roboto"}}>
-            {messageTextLeft}
+            sx={{display:"flex",
+            justifyContent: "center",
+            alignSelf:"flex-end",
+            borderRadius:3,
+            flexBasis:"50%"}}>  
+         <Box sx={{maxWidth:"80%",
+                  backgroundColor: "rgba(81, 95, 102,0.7)",
+                  borderRadius:3}}>
+         <Typography sx={{padding:2,color:"#fff"}}>{messageTextLeft}</Typography>
          </Box>
-         <Box sx={{display:"flex",justifyContent: "center",alignSelf:"center"}}>
+         </Box>
+         <Box sx={{display:"flex",
+                  justifyContent: "center",
+                  alignSelf:"center",
+                  flexBasis:"50%"
+                  }}>
          <MessageWindow
             message={messageTextRight}
             url={userDogImage}
          />
          </Box>
-         </div>
-         <div id="lowerSide">
-                  <Button variant="contained">Join Us</Button> 
-         </div>  
-        </div>
+         </Grid>
+         <Grid item
+         sx={{flexGrow:1,
+            display:"flex",justifyContent:"center",alignItems:"center"
+            }}>
+                  <LoginForm/>
+         </Grid>  
+        </Grid>
     )
 }
 
