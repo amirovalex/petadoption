@@ -3,6 +3,10 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { UserProvider } from "./context/UserContext";
+import { PetProvider } from "./context/PetContext";
+import { BrowserRouter } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 
 const theme = createTheme({
   palette: {
@@ -16,9 +20,17 @@ const theme = createTheme({
 });
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <CookiesProvider>
+      <ThemeProvider theme={theme}>
+        <UserProvider>
+          <PetProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </PetProvider>
+        </UserProvider>
+      </ThemeProvider>
+    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
