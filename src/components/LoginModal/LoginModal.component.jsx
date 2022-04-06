@@ -1,7 +1,13 @@
+import * as React from 'react';
 import { useState } from 'react';
 import {Box,DialogTitle,Dialog,Button} from '@mui/material/';
 import UserForm from '../UserForm/UserForm'
 import { useUser } from '../../context/UserContext';
+import Slide from '@mui/material/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const LoginModal = () =>  {
   const [formType, setFormType] = useState('login');
@@ -36,7 +42,7 @@ const LoginModal = () =>  {
        <Button color="secondary" variant="contained" onClick={openModal}>
         Join Us
        </Button>
-       <Dialog open={isOpenModal} onClose={handleCloseModal}>
+       <Dialog TransitionComponent={Transition} open={isOpenModal} onClose={handleCloseModal}>
         <Box sx={{display:"flex",justifyContent:"space-evenly"}}>
         <DialogTitle onClick={() => { 
             handleSetForm('login')

@@ -19,7 +19,6 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [searchPetsResults, setSearchPetsResults] = useState(null);
   const [savedPets, setSavedPets] = useState([]);
   const [ownedPets, setOwnedPets] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
@@ -205,10 +204,5 @@ export const UserProvider = ({ children }) => {
     ownedPets,
   };
 
-  return (
-    <UserContext.Provider value={value}>
-      {/* {!loading && children} */}
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

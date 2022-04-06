@@ -3,8 +3,10 @@ import SettingsInputComponentRoundedIcon from '@mui/icons-material/SettingsInput
 import CloseIcon from '@mui/icons-material/Close';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useState, useEffect } from 'react';
-import { useUser } from '../../context/UserContext.js';
 import { usePet } from '../../context/PetContext.js';
+import { useUser } from '../../context/UserContext.js';
+import { useNavigate } from 'react-router-dom';
+
 const SearchBar = () => {
     const [focus,setFocus] = useState(false)
     const [extendedSearch,setExtendedSearch] = useState(false)
@@ -18,8 +20,9 @@ const SearchBar = () => {
     const [typeInput,setTypeInput] = useState("")
     const [adoptionStatusInput,setAdoptionStatusInput] = useState("")
 
-    const { user } = useUser()
+    const { user, openModal } = useUser()
     const { searchPets } = usePet()
+    const navigate = useNavigate()
 
     const handleFocus = (bool) => {
         setFocus(bool)
@@ -69,6 +72,12 @@ const SearchBar = () => {
         setWeightsArr(acc)
     }
 
+    const searchAPet = () => {
+        searchPets(user,typeInput, nameInput, adoptionStatusInput, minHeight, maxHeight, minWeight, maxWeight);
+        navigate("/search");
+        handleExtendedSearch(false)
+    }
+
     useEffect(() => {
         renderHeight()
         renderWeight()
@@ -109,7 +118,11 @@ const SearchBar = () => {
                 endAdornment: (
                     <InputAdornment position="end">
                         <SearchRoundedIcon 
-                            onMouseDown={() => searchPets(user,typeInput, nameInput, adoptionStatusInput, minHeight, maxHeight, minWeight, maxWeight)}
+                            onMouseDown={() => {
+                                user ? searchAPet()
+                                : 
+                                openModal()
+                            }}
                             sx={{cursor:"pointer","&:hover":{color:"#14445a"}}}/>
                         <Divider
                             sx={{height:"25px"}} orientation="vertical"/>

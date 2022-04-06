@@ -13,7 +13,6 @@ import {
   getUserSavedPets,
 } from "../utils/api";
 import { useUser } from "./UserContext";
-
 export const PetContext = createContext();
 
 export const usePet = () => {
@@ -22,16 +21,29 @@ export const usePet = () => {
 
 export const PetProvider = ({ children }) => {
   const [fetchingPets, setFetchingPets] = useState(false);
-  const [searchPetsResults, setSearchPetsResults] = useState(null);
+  const [searchPetsResults, setSearchPetsResults] = useState([]);
+  const [petPageStatus, setPetPageStatus] = useState(false);
+  const [selectedPet, setSelectedPet] = useState(null);
 
   const { user, handleSavedPets, handleOwnedPets } = useUser();
 
   const startFetchingPets = () => {
     return setFetchingPets(true);
   };
-
   const finishFetchingPets = () => {
     return setFetchingPets(false);
+  };
+
+  const openPetPage = () => {
+    setPetPageStatus(true);
+  };
+
+  const closePetPage = () => {
+    setPetPageStatus(false);
+  };
+
+  const selectPet = (pet) => {
+    setSelectedPet(pet);
   };
 
   const searchPets = async (
@@ -237,6 +249,11 @@ export const PetProvider = ({ children }) => {
     adoptPet,
     returnPet,
     getSavedPets,
+    openPetPage,
+    closePetPage,
+    petPageStatus,
+    selectPet,
+    selectedPet,
   };
 
   return (

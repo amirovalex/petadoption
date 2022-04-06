@@ -59,7 +59,7 @@ const UserForm = (props) =>  {
     case "login":
       login(clearFields,emailForm,passwordForm);
       break;
-    case "signup":
+    case "register":
       signup(clearFields, emailForm, passwordForm, repasswordForm, firstnameForm, lastnameForm, phoneForm);
       break;
     case "dashboard":
@@ -77,8 +77,8 @@ const UserForm = (props) =>  {
       case "login":
         return "Login";
         break;
-      case "signup":
-        return "Register";
+      case "register":
+        return "Sign Up";
         break;
       case "dashboard":
         return "Save";
@@ -145,7 +145,7 @@ const UserForm = (props) =>  {
             onChange={(e) => handlePassword(e.target.value)}
           />
           </Grid>
-          { formType !== "login" &&
+          { formType === "register" &&
           <>
           <Grid xs={12} sm={6} item>
             <TextField

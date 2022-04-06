@@ -34,13 +34,18 @@ const Navbar = () => {
             <Toolbar sx={{paddingRight:{xs:0,sm:0}}}>
             <Box sx={{paddingRight:2}}>
                 <Link to="/">
-                    <Avatar sx={{height:{xs:30,sm:40},width:{xs:30,sm:40},cursor:"pointer"}} variant="square" src={logoDark}/>
+                    <Avatar sx={{height:{xs:30,sm:40},width:{xs:30,sm:40},
+                    cursor:"pointer",
+                    img:{
+                    objectFit:"unset"}
+                    }} variant="square" src={logoDark}/>
                 </Link>
             </Box>
             <SearchBar/>
             <Box sx={{ flexGrow: 0, display:"flex"}}>
                 <Box>
                 <Tooltip title="Saved">
+                {user ? 
                 <Link to="/user/saved">
                     <IconButton
                         centerRipple={true}
@@ -50,6 +55,16 @@ const Navbar = () => {
                         },}}/>
                     </IconButton>
                 </Link>
+                :
+                    <IconButton
+                        onClick={() => openModal()}
+                        centerRipple={true}
+                        sx={{}}>
+                            <FavoriteRoundedIcon color="secondary" sx={{width:{xs:"30px",sm:"40px"},height:{xs:"30px",sm:"40px"},'&:hover': {
+                            color: 'red'
+                        },}}/>
+                    </IconButton>
+                }
                 </Tooltip>
                 </Box>
                 <Box>

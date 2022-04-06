@@ -2,12 +2,7 @@ html,
 body {
   margin: 0;
   box-sizing: border-box;
-}
-
-html,
-body {
   height: 100%;
-  width: 100%;
 }
 
 body {
@@ -27,4 +22,8 @@ body {
 #root {
   display: flex;
   flex-direction: column;
+}
+
+* {
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial;
 }

@@ -5,7 +5,8 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage.component";
 import { Routes, Route } from "react-router-dom";
 import { useUser } from "./context/UserContext";
 import { useEffect } from "react";
-
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute.component";
+import SearchPage from "./pages/SearchPage/SearchPage.component";
 const App = () => {
   const { cookies, login } = useUser();
 
@@ -20,7 +21,15 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
-        <Route path="/user/*" element={<ProfilePage />}></Route>
+        <Route
+          path="/user/*"
+          element={
+            <PrivateRoute redirectTo={"/"}>
+              <ProfilePage />
+            </PrivateRoute>
+          }
+        ></Route>
+        <Route path="/search" element={<SearchPage />}></Route>
       </Routes>
     </>
   );
