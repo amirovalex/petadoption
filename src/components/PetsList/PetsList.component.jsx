@@ -3,9 +3,9 @@ import { Grid, Avatar, Typography } from '@mui/material';
 import { usePet } from '../../context/PetContext';
 
 const PetsList = (props) => {
-    const {pets} = props
+    const {pets, listType} = props
     console.log(pets)
-    const { openPetPage, selectPet } = usePet();
+    const { openPetPage, selectPet} = usePet();
 
     return (
         <Grid item sx={{padding:2,justifyContent:{xs:"center",sm:"start"}}} container spacing={2} >
@@ -15,8 +15,14 @@ const PetsList = (props) => {
                     <Grid item>
                         <Avatar 
                         onClick={() => {
-                            selectPet(pet)
-                            openPetPage()
+                            if(listType==="petEdit") {
+                                selectPet(pet)
+                                return;
+                            }
+                            if(listType==="petSearch") {
+                                selectPet(pet)
+                                openPetPage()
+                            }
                         }}
                         sx={{backgroundColor:"#fff",width: '100%',cursor:"pointer", height: '100%',"&:hover":{opacity:0.8}}} src={pet.picture.data.length > 1 ? pet.picture.data.length : "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"}
                         />

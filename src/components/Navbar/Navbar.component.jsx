@@ -25,7 +25,7 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
-  const { user, openModal, logout } = useUser();
+  const { user, openModal, closeModal, logout } = useUser();
 
   const open = Boolean(anchorEl);
 
@@ -41,7 +41,7 @@ const Navbar = () => {
                     }} variant="square" src={logoDark}/>
                 </Link>
             </Box>
-            <SearchBar/>
+            <SearchBar searchType="petSearch"/>
             <Box sx={{ flexGrow: 0, display:"flex"}}>
                 <Box>
                 <Tooltip title="Saved">
@@ -100,7 +100,7 @@ const Navbar = () => {
                     { 
                     (user && user.admin) ? 
                     <Link style={{textDecoration:"none"}} to="user/admin">
-                        <MenuItem>
+                        <MenuItem onClick={handlePopoverClose}>
                             <Typography
                             sx={{color:"#000"}}
                             textAlign="center">Admin</Typography>

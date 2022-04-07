@@ -5,6 +5,7 @@ import MenuTile from '../../components/MenuTile/MenuTile.component';
 import PetForm from '../../components/PetForm/PetForm.component';
 import { usePet } from '../../context/PetContext.js';
 import { useUser } from '../../context/UserContext.js';
+import EditPetMenu from '../../components/Menus//EditPetMenu/EditPetMenu.component';
 
 const AdminMenu = () => {
     const [menuRoute,setMenuRoute] = useState("main")
@@ -14,12 +15,12 @@ const AdminMenu = () => {
     }
     const location = useLocation()
     const { getUsers } = useUser()
-
+    const { setSearchPetsResults } = usePet()
     return (
         <>
         { !location.pathname.includes('admin/') &&  
         <>
-            <MenuTile 
+            <MenuTile
                 text={"Pets"}
                 navigateRoute={"pets"}
             />
@@ -45,6 +46,8 @@ const AdminMenu = () => {
                 navigateRoute={"pets/add"}
                 />
                 <MenuTile 
+                cb={() => {
+                    setSearchPetsResults([])}} 
                 text={"Edit Pet"}
                 navigateRoute={"pets/edit"}
                 />
@@ -56,9 +59,10 @@ const AdminMenu = () => {
                 />
         }       
         { location.pathname.includes('/pets/edit') &&
-            <PetForm 
-                formType="edit"
-                />
+            <EditPetMenu/>
+            // <PetForm 
+            //     formType="edit"
+            //     />
         }       
         </>
     )

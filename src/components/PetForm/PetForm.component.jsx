@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {Grid,DialogActions,TextField,Button,DialogContent, NativeSelect, FormControl, InputLabel, Select} from '@mui/material/';
 
 import { useUser } from '../../context/UserContext';
 import { usePet } from '../../context/PetContext';
 
 const PetForm = (props) =>  {
-  const {callback, formType , setFormType} = props
+  const {callback, pet, formType , setFormType} = props
   const [petName, setPetName] = useState("");
   const [petType, setPetType] = useState("");
   const [petBreed, setPetBreed] = useState("");
@@ -17,6 +17,19 @@ const PetForm = (props) =>  {
   const [petHypoallergenic, setPetHypoallergenic] = useState("0")
   const [petDietaryRestrictions, setPetDietaryRestrictions] = useState("")
 
+  useEffect(() => {
+    if (formType === "edit") { 
+    setPetName(pet.name)
+    setPetType(pet.type)
+    setPetBreed(pet.breed)
+    setPetWeight(pet.weight)
+    setPetColor(pet.color)
+    setPetHeight(pet.height)
+    setPetBio(pet.bio)
+    setPetHypoallergenic(pet.hypoallergenic)
+    setPetDietaryRestrictions(pet.dietaryRestrictions)
+    }
+  },[])
 //   const clearFields = () => {
 //     setFormType("login");
 //     setEmailForm("");
@@ -27,7 +40,9 @@ const PetForm = (props) =>  {
 //     setLastnameForm("");
 //   }
 
-  const { addPetToDb, editPetInDb } = usePet()
+  const { addPetToDb, searchPets, editPetInDb, selectPet } = usePet()
+
+  const { petSearchValues } = useUser()
   
   const handlePetName = (value) => {
     setPetName(value);
@@ -70,7 +85,7 @@ const PetForm = (props) =>  {
   };
 
    const handlePetFormCallback = () => {
-    switch (formType) {
+    switch (formType) { 
     case "add":
       addPetToDb( 
         petType,
@@ -82,10 +97,11 @@ const PetForm = (props) =>  {
         petBio,
         petHypoallergenic,
         petDietaryRestrictions,
-        petBreed) 
+        petBreed)
       break;
     case "edit":
-      editPetInDb(  
+        editPetInDb(
+        pet.id,  
         petType,
         petName,
         petImage,
@@ -96,7 +112,8 @@ const PetForm = (props) =>  {
         petHypoallergenic,
         petDietaryRestrictions,
         petBreed)
-      break;
+        selectPet(null)
+        break;
     default:
       break; 
   }
@@ -248,7 +265,8 @@ const PetForm = (props) =>  {
             </DialogContent>
             <DialogActions sx={{justifyContent:"center"}}>
                 <Button 
-                onClick={() => handlePetFormCallback()}
+                onClick={() => 
+                  handlePetFormCallback()}
                 color="secondary" variant="contained">
                 { formType === "edit" ? "Save" : "Add" }
                 </Button>

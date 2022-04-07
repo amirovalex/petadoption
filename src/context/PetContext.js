@@ -25,7 +25,7 @@ export const PetProvider = ({ children }) => {
   const [petPageStatus, setPetPageStatus] = useState(false);
   const [selectedPet, setSelectedPet] = useState(null);
 
-  const { user, handleSavedPets, handleOwnedPets } = useUser();
+  const { user, handleSavedPets, handleOwnedPets, petSearchValues } = useUser();
 
   const startFetchingPets = () => {
     return setFetchingPets(true);
@@ -68,6 +68,7 @@ export const PetProvider = ({ children }) => {
       };
       const petsList = await getPetByCriteria(user.token, pet);
       console.log("0");
+      console.log(petsList);
       setSearchPetsResults(petsList);
       console.log("1");
     } catch (error) {
@@ -112,6 +113,18 @@ export const PetProvider = ({ children }) => {
         dietaryRestrictions,
         breed
       );
+      if (petsList) {
+        searchPets(
+          petSearchValues.user,
+          petSearchValues.typeInput,
+          petSearchValues.nameInput,
+          petSearchValues.adoptionStatusInput,
+          petSearchValues.minHeight,
+          petSearchValues.maxHeight,
+          petSearchValues.minWeight,
+          petSearchValues.maxWeight
+        );
+      }
       console.log("pet added");
       return petsList;
     } catch (error) {
@@ -120,7 +133,6 @@ export const PetProvider = ({ children }) => {
   };
 
   const editPetInDb = async (
-    user,
     id,
     type,
     name,
@@ -134,6 +146,20 @@ export const PetProvider = ({ children }) => {
     breed
   ) => {
     try {
+      console.log(
+        user.token,
+        id,
+        type,
+        name,
+        image,
+        weight,
+        height,
+        color,
+        bio,
+        hypoallergenic,
+        dietaryRestrictions,
+        breed
+      );
       const petsList = await editPetById(
         user.token,
         id,
@@ -148,8 +174,21 @@ export const PetProvider = ({ children }) => {
         dietaryRestrictions,
         breed
       );
+      console.log(petsList);
+      if (petsList.changedRows) {
+        searchPets(
+          petSearchValues.user,
+          petSearchValues.typeInput,
+          petSearchValues.nameInput,
+          petSearchValues.adoptionStatusInput,
+          petSearchValues.minHeight,
+          petSearchValues.maxHeight,
+          petSearchValues.minWeight,
+          petSearchValues.maxWeight
+        );
+      }
       console.log("0");
-      setSearchPetsResults(petsList);
+      // setSearchPetsResults(petsList);
       console.log("1");
     } catch (error) {
       console.log(error);
@@ -240,6 +279,7 @@ export const PetProvider = ({ children }) => {
   const value = {
     searchPets,
     searchPetsResults,
+    setSearchPetsResults,
     addPetToDb,
     editPetInDb,
     getPetsByUser,

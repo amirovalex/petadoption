@@ -22,7 +22,7 @@ export const UserProvider = ({ children }) => {
   const [savedPets, setSavedPets] = useState([]);
   const [ownedPets, setOwnedPets] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
-
+  const [petSearchValues, setPetSearchValues] = useState({});
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const openModal = () => {
@@ -202,6 +202,8 @@ export const UserProvider = ({ children }) => {
     handleOwnedPets,
     savedPets,
     ownedPets,
+    setPetSearchValues,
+    petSearchValues,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

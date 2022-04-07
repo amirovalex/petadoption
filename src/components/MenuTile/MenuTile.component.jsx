@@ -10,7 +10,8 @@ const MenuTile = (props) => {
     return (
         <Grid item 
         onClick={() => {
-            if(cb) {cb(user)}
+            if(text === "Get All Users") {cb(user)}
+            if(text === "Edit Pet") {cb()}
             navigate(navigateRoute)
         }}
         sx={{cursor:"pointer","&:hover":{backgroundColor:"rgba(0,0,0,0.1)"},padding:1}}>

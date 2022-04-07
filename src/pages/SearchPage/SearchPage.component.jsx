@@ -13,7 +13,8 @@ const SearchPage = () => {
             display:searchPetsResults.length <= 0 ? "flex" : "block",justifyContent:"center",alignItems:"center"}}>
             {searchPetsResults.length > 0 ?
             <>
-                <PetsList pets={searchPetsResults}/>
+                <PetsList 
+                listType="petSearch" pets={searchPetsResults}/>
                 <PetPage />
             </>
             :

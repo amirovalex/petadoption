@@ -7,7 +7,7 @@ import { usePet } from '../../context/PetContext.js';
 import { useUser } from '../../context/UserContext.js';
 import { useNavigate } from 'react-router-dom';
 
-const SearchBar = () => {
+const SearchBar = ({searchType}) => {
     const [focus,setFocus] = useState(false)
     const [extendedSearch,setExtendedSearch] = useState(false)
     const [heightsArr,setHeightsArr] = useState([])
@@ -20,8 +20,8 @@ const SearchBar = () => {
     const [typeInput,setTypeInput] = useState("")
     const [adoptionStatusInput,setAdoptionStatusInput] = useState("")
 
-    const { user, openModal } = useUser()
-    const { searchPets } = usePet()
+    const { user, openModal, setPetSearchValues } = useUser()
+    const { searchPets, selectPet } = usePet()
     const navigate = useNavigate()
 
     const handleFocus = (bool) => {
@@ -73,9 +73,21 @@ const SearchBar = () => {
     }
 
     const searchAPet = () => {
-        searchPets(user,typeInput, nameInput, adoptionStatusInput, minHeight, maxHeight, minWeight, maxWeight);
-        navigate("/search");
-        handleExtendedSearch(false)
+        switch(searchType) {
+            case "petSearch": 
+                selectPet(null)
+                setPetSearchValues({user,typeInput, nameInput, adoptionStatusInput, minHeight, maxHeight, minWeight, maxWeight})
+                searchPets(user,typeInput, nameInput, adoptionStatusInput, minHeight, maxHeight, minWeight, maxWeight);
+                navigate("/search");
+                handleExtendedSearch(false);
+                break;
+            case "petEdit":
+                selectPet(null)
+                setPetSearchValues({user,typeInput, nameInput, adoptionStatusInput, minHeight, maxHeight, minWeight, maxWeight})
+                searchPets(user,typeInput, nameInput, adoptionStatusInput, minHeight, maxHeight, minWeight, maxWeight);
+            default:
+            break;
+        }
     }
 
     useEffect(() => {
@@ -93,7 +105,8 @@ const SearchBar = () => {
         // }
         // }>
         <Grid 
-        container sx={{position:"relative",flexGrow:1}}>
+        container sx={{
+            zIndex:10,position:"relative",flexGrow:1}}>
             <Grid item 
                 xs={12}
                 sx={{flexGrow:1,display:"flex"}}>
