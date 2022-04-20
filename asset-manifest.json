@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/petadoption/static/css/main.68dcc3b0.chunk.css",
+    "main.js": "/petadoption/static/js/main.36a1bcf7.chunk.js",
+    "main.js.map": "/petadoption/static/js/main.36a1bcf7.chunk.js.map",
+    "runtime-main.js": "/petadoption/static/js/runtime-main.c34ebbea.js",
+    "runtime-main.js.map": "/petadoption/static/js/runtime-main.c34ebbea.js.map",
+    "static/js/2.a6aac4f8.chunk.js": "/petadoption/static/js/2.a6aac4f8.chunk.js",
+    "static/js/2.a6aac4f8.chunk.js.map": "/petadoption/static/js/2.a6aac4f8.chunk.js.map",
+    "index.html": "/petadoption/index.html",
+    "static/css/main.68dcc3b0.chunk.css.map": "/petadoption/static/css/main.68dcc3b0.chunk.css.map",
+    "static/js/2.a6aac4f8.chunk.js.LICENSE.txt": "/petadoption/static/js/2.a6aac4f8.chunk.js.LICENSE.txt",
+    "static/media/DogYoga.618031db.jpg": "/petadoption/static/media/DogYoga.618031db.jpg",
+    "static/media/LogoDark.874c0dd0.png": "/petadoption/static/media/LogoDark.874c0dd0.png",
+    "static/media/UserDogImage.e5d68285.jpg": "/petadoption/static/media/UserDogImage.e5d68285.jpg",
+    "static/media/HomePage.styles.css": "/petadoption/static/media/background.f2ec54c3.jpg",
+    "static/media/cat.495aee22.svg": "/petadoption/static/media/cat.495aee22.svg",
+    "static/media/chameleon.f7f18ea2.svg": "/petadoption/static/media/chameleon.f7f18ea2.svg",
+    "static/media/dog.41c71fda.svg": "/petadoption/static/media/dog.41c71fda.svg",
+    "static/media/fish2.d50a65f0.svg": "/petadoption/static/media/fish2.d50a65f0.svg",
+    "static/media/lizard.cee40853.svg": "/petadoption/static/media/lizard.cee40853.svg",
+    "static/media/mapImage.a4932023.png": "/petadoption/static/media/mapImage.a4932023.png",
+    "static/media/mouse.0bf7bbee.svg": "/petadoption/static/media/mouse.0bf7bbee.svg",
+    "static/media/parrot.25594762.svg": "/petadoption/static/media/parrot.25594762.svg",
+    "static/media/rabbit.4094f782.svg": "/petadoption/static/media/rabbit.4094f782.svg",
+    "static/media/snake.232c4a77.svg": "/petadoption/static/media/snake.232c4a77.svg",
+    "static/media/turtle.bae27da9.svg": "/petadoption/static/media/turtle.bae27da9.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c34ebbea.js",
+    "static/js/2.a6aac4f8.chunk.js",
+    "static/css/main.68dcc3b0.chunk.css",
+    "static/js/main.36a1bcf7.chunk.js"
+  ]
+}
