@@ -38,7 +38,7 @@ const Navbar = () => {
         <AppBar onClick={() => {setPetPageStatus(false)}}sx={{zIndex:1500}}>
             <Toolbar sx={{paddingRight:{xs:0,sm:0}}}>
             <Box sx={{paddingRight:2}}>
-                <Link to="/">
+                <Link to="/petadoption">
                     <Avatar sx={{height:{xs:30,sm:40},width:{xs:30,sm:40},
                     cursor:"pointer",
                     img:{
