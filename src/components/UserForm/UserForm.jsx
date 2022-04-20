@@ -20,7 +20,6 @@ const UserForm = (props) =>  {
     setPhoneForm("");
     setFirstnameForm("");
     setLastnameForm("");
-    closeModal();
   }
   
   const handleEmail = (value) => {
@@ -58,6 +57,7 @@ const UserForm = (props) =>  {
     switch (formType) {
     case "login":
       login(clearFields,emailForm,passwordForm);
+      closeModal();
       break;
     case "register":
       signup(clearFields, emailForm, passwordForm, repasswordForm, firstnameForm, lastnameForm, phoneForm);
@@ -115,11 +115,11 @@ const UserForm = (props) =>  {
           {formType !== "login" &&
             <Grid item container sm={6} xs={12} sx={{display:"flex",alignItems: "center"}}>
                 <FormControl sx={{flexGrow:1,position:"relative",top:"2px"}}>
-                  <InputLabel color="secondary" htmlFor="phone">Phone Number</InputLabel>
+                  <InputLabel color="secondary" htmlFor="phone">Phone Number(Not Required)</InputLabel>
                   <OutlinedInput
                       margin="dense"
                       id="phone"
-                      label="Phone Number"
+                      label="Phone Number(Not Required)"
                       type="phone"
                       fullWidth
                       variant="outlined"

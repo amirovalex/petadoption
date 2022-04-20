@@ -8,6 +8,7 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import { useState } from 'react';
 import { useUser } from '../../context/UserContext';
+import { usePet } from '../../context/PetContext';
 import SearchBar from '../SearchBar/SearchBar.component';
 import { Link } from "react-router-dom";
 
@@ -22,15 +23,19 @@ const Navbar = () => {
   };
 
   const handlePopoverClose = () => {
+    setPetPageStatus(false)
     setAnchorEl(null);
   };
 
   const { user, openModal, closeModal, logout } = useUser();
 
+  const {setPetPageStatus} = usePet();
+
+
   const open = Boolean(anchorEl);
 
     return(
-        <AppBar>
+        <AppBar onClick={() => {setPetPageStatus(false)}}sx={{zIndex:1500}}>
             <Toolbar sx={{paddingRight:{xs:0,sm:0}}}>
             <Box sx={{paddingRight:2}}>
                 <Link to="/">
@@ -48,6 +53,7 @@ const Navbar = () => {
                 {user ? 
                 <Link to="/user/saved">
                     <IconButton
+                        onClick={() => setPetPageStatus(false)}
                         centerRipple={true}
                         sx={{}}>
                             <FavoriteRoundedIcon color="secondary" sx={{width:{xs:"30px",sm:"40px"},height:{xs:"30px",sm:"40px"},'&:hover': {
@@ -56,14 +62,14 @@ const Navbar = () => {
                     </IconButton>
                 </Link>
                 :
-                    <IconButton
-                        onClick={() => openModal()}
-                        centerRipple={true}
-                        sx={{}}>
-                            <FavoriteRoundedIcon color="secondary" sx={{width:{xs:"30px",sm:"40px"},height:{xs:"30px",sm:"40px"},'&:hover': {
-                            color: 'red'
-                        },}}/>
-                    </IconButton>
+                <IconButton
+                    onClick={() => openModal()}
+                    centerRipple={true}
+                    sx={{}}>
+                        <FavoriteRoundedIcon color="secondary" sx={{width:{xs:"30px",sm:"40px"},height:{xs:"30px",sm:"40px"},'&:hover': {
+                        color: 'red'
+                    },}}/>
+                </IconButton>
                 }
                 </Tooltip>
                 </Box>
@@ -84,7 +90,7 @@ const Navbar = () => {
                 </Tooltip>
                 </Box>
                 <Menu
-                sx={{ mt: '0px', top:"0px",width:`${anchorEl ? anchorEl.offsetWidth : "auto"}` }}
+                sx={{ zIndex:1500,mt: '0px', top:"0px",width:`${anchorEl ? anchorEl.offsetWidth : "auto"}` }}
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 keepMounted

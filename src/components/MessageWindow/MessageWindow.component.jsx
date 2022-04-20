@@ -5,12 +5,17 @@ import {CardMedia,Typography,CardContent,Card} from '@mui/material'
 const MessageWindow = ({message,url}) => {
 
   return (
-    <Card sx={{ maxWidth: "80%",display:"flex",borderRadius:3,
-    backgroundColor: "rgba(81, 95, 102,0.7)"
+    <Card sx={{display:"flex",borderRadius:3,
+    cursor:"pointer",
+    backgroundColor: "rgba(81, 95, 102,0.7)",
+    "&:hover":{backgroundColor:"#515f66"},
+    boxShadow:"1px 1px 6px 2px rgb(0 0 0 / 15%)"
      }}>
         <CardContent >
             <Typography
-            color="#fff">
+            color="#fff"
+            sx={{fontWeight:"bolder"}}
+            >
                 {message}
             </Typography>
         </CardContent>

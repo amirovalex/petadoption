@@ -29,7 +29,7 @@ const App = () => {
             </PrivateRoute>
           }
         ></Route>
-        <Route path="/search" element={<SearchPage />}></Route>
+        <Route path="/search/*" element={<SearchPage />}></Route>
       </Routes>
     </>
   );

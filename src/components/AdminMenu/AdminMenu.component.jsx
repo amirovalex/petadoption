@@ -6,16 +6,19 @@ import PetForm from '../../components/PetForm/PetForm.component';
 import { usePet } from '../../context/PetContext.js';
 import { useUser } from '../../context/UserContext.js';
 import EditPetMenu from '../../components/Menus//EditPetMenu/EditPetMenu.component';
-
+import { Box} from '@mui/material'
+import UserInfoCard from '../UserInfoCard/UserInfoCard.component';
+import { useWindow } from '../../hooks/useWindow';
 const AdminMenu = () => {
     const [menuRoute,setMenuRoute] = useState("main")
-
+    
     const handleMenuRoute = (route) => {
         setMenuRoute(route)
     }
     const location = useLocation()
-    const { getUsers } = useUser()
+    const { getUsers,allUsers } = useUser()
     const { setSearchPetsResults } = usePet()
+    const { isDesktopOrLaptop } = useWindow()
     return (
         <>
         { !location.pathname.includes('admin/') &&  
@@ -63,7 +66,18 @@ const AdminMenu = () => {
             // <PetForm 
             //     formType="edit"
             //     />
-        }       
+        }  
+        { location.pathname.includes('/admin/users/all') &&
+            <Box sx={{display:"flex",
+            flexDirection:isDesktopOrLaptop? "row": "column",
+            flexWrap:"wrap",padding:"1rem",gap:"1rem"}}>
+                {allUsers.map((user) => {
+                    return(
+                        <UserInfoCard user={user}/>
+                    )
+                })}
+            </Box>
+        }      
         </>
     )
 }

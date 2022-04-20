@@ -167,7 +167,7 @@ const PetForm = (props) =>  {
                 <TextField
                     margin="dense"
                     id="weight"
-                    label="Pet Weight"
+                    label="Pet Weight(kg)"
                     type="text"
                     fullWidth
                     variant="standard"
@@ -180,7 +180,7 @@ const PetForm = (props) =>  {
                 <TextField
                     margin="dense"
                     id="height"
-                    label="Pet Height"
+                    label="Pet Height(cm)"
                     type="text"
                     fullWidth
                     variant="standard"

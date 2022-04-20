@@ -17,6 +17,13 @@ const theme = createTheme({
       main: "#14445A",
     },
   },
+  components: {
+    NativeSelect: {
+      svg: {
+        display: "none",
+      },
+    },
+  },
 });
 ReactDOM.render(
   <React.StrictMode>

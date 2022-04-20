@@ -24,8 +24,16 @@ export const PetProvider = ({ children }) => {
   const [searchPetsResults, setSearchPetsResults] = useState([]);
   const [petPageStatus, setPetPageStatus] = useState(false);
   const [selectedPet, setSelectedPet] = useState(null);
+  const [adoptedPet, setAdoptedPet] = useState(false);
 
-  const { user, handleSavedPets, handleOwnedPets, petSearchValues } = useUser();
+  const {
+    user,
+    handleSavedPets,
+    handleOwnedPets,
+    petSearchValues,
+    setSavedPets,
+    savedPets,
+  } = useUser();
 
   const startFetchingPets = () => {
     return setFetchingPets(true);
@@ -38,8 +46,37 @@ export const PetProvider = ({ children }) => {
     setPetPageStatus(true);
   };
 
+  const searchPetsAfterAdoption = () => {
+    console.log("HHEHEHE");
+    const {
+      user,
+      typeInput,
+      nameInput,
+      adoptionStatusInput,
+      minHeight,
+      maxHeight,
+      minWeight,
+      maxWeight,
+    } = petSearchValues;
+
+    searchPets(
+      user,
+      typeInput,
+      nameInput,
+      adoptionStatusInput,
+      minHeight,
+      maxHeight,
+      minWeight,
+      maxWeight
+    );
+  };
+
   const closePetPage = () => {
     setPetPageStatus(false);
+    if (adoptedPet) {
+      setAdoptedPet(false);
+      searchPetsAfterAdoption();
+    }
   };
 
   const selectPet = (pet) => {
@@ -79,6 +116,7 @@ export const PetProvider = ({ children }) => {
   const getSavedPets = async () => {
     try {
       const pets = await getUserSavedPets(user.token, user.id);
+      console.log("fetched pets", pets);
       handleSavedPets(pets);
       return pets;
     } catch (error) {
@@ -214,18 +252,31 @@ export const PetProvider = ({ children }) => {
     }
   };
 
-  const savedPetDelete = async (user, petId) => {
+  const savedPetDelete = async (user, pet) => {
     try {
-      const response = await deleteSavedPet(user.token, user.id, petId);
-      return response.data;
+      console.log(user);
+      const response = await deleteSavedPet(user.token, user.id, pet.id);
+      console.log(response);
+      if (response) {
+        setSavedPets((prevState) => {
+          const filteredArr = prevState.filter(
+            (filteredPet) => pet.id !== filteredPet.id
+          );
+          return filteredArr;
+        });
+      }
+      return response;
     } catch (error) {
       console.log(error);
     }
   };
 
-  const savePet = async (user, petId) => {
+  const savePet = async (user, pet) => {
     try {
-      const response = await saveAPet(user.token, user.id, petId);
+      const response = await saveAPet(user.token, user.id, pet.id);
+      if (response) {
+        setSavedPets((prevState) => [...prevState, pet]);
+      }
       return response.data;
     } catch (error) {
       console.log(error);
@@ -234,31 +285,51 @@ export const PetProvider = ({ children }) => {
 
   const adoptPet = async (user, petId, adoptionType) => {
     try {
+      console.log("adopted");
       const response = await adoptAPet(
         user.token,
         user.id,
         petId,
         adoptionType
       );
-      return response.data;
+      if (response) {
+        setAdoptedPet(true);
+
+        setSelectedPet((prevState) => {
+          return { ...prevState, owner: user.id, adoptionStatus: adoptionType };
+        });
+        console.log(searchPetsResults);
+      }
+      return response;
     } catch (error) {
       console.log(error);
     }
   };
 
-  const returnPet = async (user, petId, adoptionType) => {
+  const returnPet = async (user, petId) => {
     try {
-      const response = await returnAPet(
-        user.token,
-        user.id,
-        petId,
-        adoptionType
-      );
-      return response.data;
+      console.log("return");
+      const response = await returnAPet(user.token, user.id, petId);
+      if (response) {
+        setAdoptedPet(true);
+        console.log(searchPetsResults);
+        setSelectedPet((prevState) => {
+          return { ...prevState, owner: null, adoptionStatus: null };
+        });
+      }
+      return response;
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    console.log(savedPets);
+  }, [savedPets]);
+
+  useEffect(() => {
+    getSavedPets();
+  }, [user]);
 
   useEffect(() => {
     const init = async () => {
@@ -292,6 +363,7 @@ export const PetProvider = ({ children }) => {
     openPetPage,
     closePetPage,
     petPageStatus,
+    setPetPageStatus,
     selectPet,
     selectedPet,
   };

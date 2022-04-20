@@ -23,6 +23,8 @@ export const UserProvider = ({ children }) => {
   const [ownedPets, setOwnedPets] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [petSearchValues, setPetSearchValues] = useState({});
+  // const [lastUserSearch, setLastUserSearch] = useState({});
+
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   const openModal = () => {
@@ -49,6 +51,10 @@ export const UserProvider = ({ children }) => {
     setOwnedPets(pets);
   };
 
+  // const handleLastUserSearch = (searchObj) => {
+  //   setLastUserSearch((prevState) => searchObj);
+  // };
+
   const login = async (cb, email, password) => {
     try {
       startFetchingUser();
@@ -57,12 +63,15 @@ export const UserProvider = ({ children }) => {
       if (cb) {
         cb();
       }
-      setUser(user);
-      setCookie("Token", user.token, { path: "/" });
-      setCookie("Email", email, { path: "/" });
-      setCookie("Password", password, { path: "/" });
-      console.log(cb, email, password);
-      console.log("1");
+      if (user) {
+        console.log(user);
+        setUser(user);
+        setCookie("Token", user.token, { path: "/" });
+        setCookie("Email", email, { path: "/" });
+        setCookie("Password", password, { path: "/" });
+        console.log(cb, email, password);
+        console.log("1");
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -184,6 +193,10 @@ export const UserProvider = ({ children }) => {
     init();
   }, []);
 
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   const value = {
     cookies,
     user,
@@ -195,6 +208,7 @@ export const UserProvider = ({ children }) => {
     closeModal,
     editUser,
     getUsers,
+    allUsers,
     getByIdUser,
     setSavedPets,
     setOwnedPets,

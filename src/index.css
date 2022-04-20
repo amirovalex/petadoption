@@ -27,3 +27,7 @@ body {
 * {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial;
 }
+
+.MuiOutlinedInput-notchedOutline {
+  border: "2px solid #14445A !important";
+}

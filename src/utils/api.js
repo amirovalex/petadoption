@@ -274,8 +274,24 @@ const getUserSavedPets = async (token, userId) => {
 
 const deleteSavedPet = async (token, userId, petId) => {
   try {
-    console.log(token, petId);
-    const response = await axios.delete(
+    console.log(
+      "TOKEEEEEEEEEN:",
+      token,
+      "PEEEEEEET IT:",
+      petId,
+      "USEEEEEEER ID:",
+      userId
+    );
+    // const response = await axios.delete(
+    //   `${process.env.REACT_APP_SERVER_LINK}/pet/${petId}/save`,
+    //   { userId },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   }
+    // );
+    const response = await axios.put(
       `${process.env.REACT_APP_SERVER_LINK}/pet/${petId}/save`,
       { userId },
       {
@@ -284,6 +300,7 @@ const deleteSavedPet = async (token, userId, petId) => {
         },
       }
     );
+
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -329,12 +346,12 @@ const adoptAPet = async (token, userId, petId, adoptionType) => {
   }
 };
 
-const returnAPet = async (token, userId, petId, adoptionType) => {
+const returnAPet = async (token, userId, petId) => {
   try {
-    console.log(token, petId);
+    console.log("token :", token, "USERID:", userId, "PETID:", petId);
     const response = await axios.post(
       `${process.env.REACT_APP_SERVER_LINK}/pet/${petId}/return`,
-      { userId, adoptionType },
+      { userId },
       {
         headers: {
           Authorization: `Bearer ${token}`,

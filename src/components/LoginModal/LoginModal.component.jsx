@@ -39,7 +39,7 @@ const LoginModal = () =>  {
 
   return (
     <div>
-       <Button color="secondary" variant="contained" onClick={openModal}>
+       <Button sx={{marginBottom:1}} color="secondary" variant="contained" onClick={openModal}>
         Join Us
        </Button>
        <Dialog TransitionComponent={Transition} open={isOpenModal} onClose={handleCloseModal}>

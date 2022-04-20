@@ -2,10 +2,11 @@ import { TextField, Grid, InputAdornment,Divider,FormControl,ClickAwayListener,I
 import SettingsInputComponentRoundedIcon from '@mui/icons-material/SettingsInputComponentRounded';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { usePet } from '../../context/PetContext.js';
 import { useUser } from '../../context/UserContext.js';
 import { useNavigate } from 'react-router-dom';
+
 
 const SearchBar = ({searchType}) => {
     const [focus,setFocus] = useState(false)
@@ -19,10 +20,44 @@ const SearchBar = ({searchType}) => {
     const [nameInput,setNameInput] = useState("")
     const [typeInput,setTypeInput] = useState("")
     const [adoptionStatusInput,setAdoptionStatusInput] = useState("")
-
+    const [extendedSearchNode, setExtendedSearchNode] = useState(null)
     const { user, openModal, setPetSearchValues } = useUser()
     const { searchPets, selectPet } = usePet()
     const navigate = useNavigate()
+
+    const extendSearch = () => {
+        setExtendedSearch(true)
+    }
+
+    const closeExtendedSearch = () => {
+        setExtendedSearch(false)
+    }
+
+    const handleBlur = useCallback(
+    (e) => {
+      const currentTarget = e.currentTarget;
+      console.log(e.target)
+      console.log(currentTarget)
+      console.log(window.getSelection())
+      // Give browser time to focus the next element
+      requestAnimationFrame(() => {
+        // Check if the new focused element is a child of the original container
+
+        //check if was clicked out of the children node
+        // if (document.activeElement) {
+        //     closeExtendedSearch();
+        // }
+
+        if (!currentTarget.contains(extendedSearchNode)) {
+            setExtendedSearchNode(null)
+            closeExtendedSearch();
+            console.log('close')
+        }
+    });
+},
+    [closeExtendedSearch]
+  );
+
 
     const handleFocus = (bool) => {
         setFocus(bool)
@@ -78,12 +113,12 @@ const SearchBar = ({searchType}) => {
                 selectPet(null)
                 setPetSearchValues({user,typeInput, nameInput, adoptionStatusInput, minHeight, maxHeight, minWeight, maxWeight})
                 searchPets(user,typeInput, nameInput, adoptionStatusInput, minHeight, maxHeight, minWeight, maxWeight);
-                navigate("/search");
+                navigate(`/search?type=${typeInput}`);
                 handleExtendedSearch(false);
                 break;
             case "petEdit":
                 selectPet(null)
-                setPetSearchValues({user,typeInput, nameInput, adoptionStatusInput, minHeight, maxHeight, minWeight, maxWeight})
+                // setPetSearchValues({user,typeInput, nameInput, adoptionStatusInput, minHeight, maxHeight, minWeight, maxWeight})
                 searchPets(user,typeInput, nameInput, adoptionStatusInput, minHeight, maxHeight, minWeight, maxWeight);
             default:
             break;
@@ -95,31 +130,36 @@ const SearchBar = ({searchType}) => {
         renderWeight()
     },[])
 
+    const styles = theme => ({
+    notchedOutline: {
+        border: "2px solid #14445A !important",
+    }
+    });
 
     return (
-        //     <ClickAwayListener
-        // onClickAway={() => {
-        // if(extendedSearch) {
-        // handleExtendedSearch(false)
-        // }
-        // }
-        // }>
-        <Grid 
+        <ClickAwayListener onClickAway={closeExtendedSearch}>
+        <Grid
         container sx={{
+
             zIndex:10,position:"relative",flexGrow:1}}>
             <Grid item 
                 xs={12}
                 sx={{flexGrow:1,display:"flex"}}>
                 <TextField
+                color="primary"
+                focused
                 onFocus={() => handleFocus(true)}
                 onBlur={() => handleFocus(false)}
                 value={typeInput}
-                onChange={(e) => {setTypeInput(e.target.value)}}
+                onChange={(e) => {
+                    setTypeInput(e.target.value)}}
                 InputProps={
                 focus || extendedSearch ? {
                 startAdornment: (
                     <InputAdornment position="start"
-                    onMouseDown={(e) => {handleExtendedSearch(!extendedSearch)
+                    onMouseDown={(e) => {
+                        setExtendedSearchNode(e.currentTarget)
+                        handleExtendedSearch(!extendedSearch)
                     return e.preventDefault()}}
                     sx={{cursor:"pointer","&:hover":{color:"#14445a"}}}>
                         <SettingsInputComponentRoundedIcon
@@ -142,7 +182,11 @@ const SearchBar = ({searchType}) => {
                         <CloseIcon sx={{cursor:"pointer","&:hover":{color:"#14445a"}}}/>
                     </InputAdornment>
                 )
-                }: null}
+                }: {
+                classes: {
+                  notchedOutline: styles().notchedOutline
+                },
+                }}
                 size="small" sx={{flexGrow:1, my:1}} 
                 color="secondary" 
                 label="Search for a pet"
@@ -150,16 +194,23 @@ const SearchBar = ({searchType}) => {
                 variant="outlined"/>
             </Grid>
             {extendedSearch &&
-            <Grid container
+            <Grid 
+                // onClick={(e) => {
+                //     console.log(e.currentTarget)
+                // }}
+                container
                 gap={1}
                 sx={{
+                borderBottom:"1px solid rgb(200,200,200)",
+                borderLeft:"1px solid rgb(200,200,200)",
+                borderRight:"1px solid rgb(200,200,200)",
                 padding:1,
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor:"#fff",position:"absolute",top:"56px",
                 borderRadius:"0 0 4px 4px",
                 paddingBottom:2
-            }}
+                }}
                 rowSpacing={1}>
                 <Grid sx={{                    
                     display:"flex",justifyContent:"center",
@@ -180,6 +231,7 @@ const SearchBar = ({searchType}) => {
                             Adoption Status
                         </InputLabel>
                         <NativeSelect
+                            IconComponent="span"
                             onChange={(e) => handleAdoptionStatus(e.target.value)}
                             size="small"
                             color="secondary"
@@ -202,9 +254,10 @@ const SearchBar = ({searchType}) => {
                     flexGrow:1}} item gap={1} xs={12} sm={5.8}>
                       <FormControl fullWidth>
                         <InputLabel variant="standard" color="secondary" htmlFor="uncontrolled-native">
-                            Min Height
+                            Min Height(cm)
                         </InputLabel>
                         <NativeSelect
+                            IconComponent="span"
                             onChange={(e) => handleMinHeight(e.target.value)}
                             size="small"
                             color="secondary"
@@ -216,7 +269,6 @@ const SearchBar = ({searchType}) => {
                         >
                         {   
                             heightsArr.map((height,index) => {
-                                console.log(height)
                                 return <option key={index} color="secondary" value={height}>{height}</option>
                             })
                         }
@@ -225,9 +277,10 @@ const SearchBar = ({searchType}) => {
                     </FormControl>
                       <FormControl fullWidth>
                         <InputLabel variant="standard" color="secondary" htmlFor="uncontrolled-native">
-                            Max Height
+                            Max Height(cm)
                         </InputLabel>
                         <NativeSelect
+                        IconComponent="span"
                             onChange={(e) => handleMaxHeight(e.target.value)}
                             size="small"
                             color="secondary"
@@ -239,7 +292,6 @@ const SearchBar = ({searchType}) => {
                         >
                         {   
                             heightsArr.map((height,index) => {
-                                console.log(height)
                                 return <option key={index} color="secondary" value={height}>{height}</option>
                             })
                         }
@@ -252,9 +304,10 @@ const SearchBar = ({searchType}) => {
                     display:"flex",justifyContent:"center"}}item xs={12} sm={5.8}>
                     <FormControl fullWidth>
                         <InputLabel variant="standard" color="secondary" htmlFor="uncontrolled-native">
-                            Min Weight
+                            Min Weight(kg)
                         </InputLabel>
                         <NativeSelect
+                        IconComponent="span"
                             onChange={(e) => handleMinWeight(e.target.value)}
                             size="small"
                             color="secondary"
@@ -265,9 +318,8 @@ const SearchBar = ({searchType}) => {
                             }}
                         >
                         {   
-                            weightsArr.map((height,index) => {
-                                console.log(height)
-                                return <option key={index} color="secondary" value={height}>{height}</option>
+                            weightsArr.map((weight,index) => {
+                                return <option key={index} color="secondary" value={weight}>{weight}</option>
                             })
                         }
                           
@@ -275,9 +327,10 @@ const SearchBar = ({searchType}) => {
                     </FormControl>
                       <FormControl fullWidth>
                         <InputLabel variant="standard" color="secondary" htmlFor="uncontrolled-native">
-                            Max Weight
+                            Max Weight(kg)
                         </InputLabel>
                         <NativeSelect
+                        IconComponent="span"
                             size="small"
                             color="secondary"
                             value={maxWeight}
@@ -289,7 +342,6 @@ const SearchBar = ({searchType}) => {
                         >
                         {   
                             weightsArr.map((weight,index) => {
-                                console.log(weight)
                                 return <option key={index} color="secondary" value={weight}>{weight}</option>
                             })
                         }
@@ -301,7 +353,7 @@ const SearchBar = ({searchType}) => {
             </Grid>
             }
         </Grid>
-        // </ClickAwayListener>
+        </ClickAwayListener>
     )
 }
 

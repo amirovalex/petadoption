@@ -3,9 +3,17 @@ import PetsList from '../../components/PetsList/PetsList.component.jsx';
 import { Container, Typography } from '@mui/material';
 import { usePet } from '../../context/PetContext';
 import PetPage from '../../components/PetPage/PetPage.component';
+import { useEffect } from 'react';
+import useQuery from '../../hooks/useQuery';
 
 const SearchPage = () => {
     const {searchPetsResults, selectedPet} = usePet();
+    const query = useQuery()
+
+    useEffect(() => {
+        console.log(query.get("type"))
+    },[])
+    
     return (
         <Container sx={{
             paddingTop:8,

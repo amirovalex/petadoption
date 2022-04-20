@@ -3,7 +3,7 @@ import UserForm from '../UserForm/UserForm'
 
 const Dashboard = () => {
     return (
-        <Grid container>
+        <Grid container sx={{justifyContent: 'center'}}>
             <UserForm 
             formType="dashboard"/>
         </Grid>

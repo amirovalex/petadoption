@@ -24,11 +24,11 @@ const PetsList = (props) => {
                                 openPetPage()
                             }
                         }}
-                        sx={{backgroundColor:"#fff",width: '100%',cursor:"pointer", height: '100%',"&:hover":{opacity:0.8}}} src={pet.picture.data.length > 1 ? pet.picture.data.length : "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"}
+                        sx={{backgroundColor:"#fff",width: '10rem',cursor:"pointer", height: '10rem',"&:hover":{opacity:0.8}}} src={pet.picture ? pet.picture : "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg"}
                         />
                     </Grid>
                     <Grid item sx={{padding: 1}}>
-                        <Typography variant="p">
+                        <Typography variant="p" sx={{fontWeight:"bold",}}>
                             {pet.name}
                         </Typography>
                     </Grid>
